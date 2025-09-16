@@ -9,7 +9,7 @@ public partial class Main : Control
         _errorLabel ??= GetNode<Label>("Error");
         var logger = new GameLogger();
         OS.AddLogger(logger);
-        
+
         logger.Connect(
             GameLogger.SignalName.ErrorCaught,
             Callable.From<string>(ShowError),
@@ -17,14 +17,24 @@ public partial class Main : Control
 
         await Task.Delay(1000);
 
-        throw new NullReferenceException("Test exception from Main");
-        
+        Foo();
+
     }
     private Label _errorLabel;
     private void ShowError(string errorMessage)
     {
         _errorLabel.Text = errorMessage;
         _errorLabel.Visible = true;
+    }
+
+    private void Foo()
+    {
+        Bar();
+    }
+
+    private void Bar()
+    {
+        throw new NullReferenceException("Test exception from Bar");
     }
 
 }
